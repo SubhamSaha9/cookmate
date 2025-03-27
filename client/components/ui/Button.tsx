@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import Colors from "@/services/Colors";
+import { COLORS } from "@/services/Colors";
 
 export default function Button({
   text,
@@ -14,7 +14,7 @@ export default function Button({
       <Text
         style={{
           textAlign: "center",
-          color: Colors.WHITE,
+          color: COLORS.WHITE,
           fontSize: 17,
           fontFamily: "outfit",
         }}
@@ -27,7 +27,7 @@ export default function Button({
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: Colors.PRIMARY,
+    backgroundColor: COLORS.PRIMARY,
     padding: 15,
     borderRadius: 12,
     marginTop: 20,

@@ -2,10 +2,10 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { Marquee } from "@animatereactnative/marquee";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import React from "react";
-import Colors from "@/services/Colors";
 import { useRouter } from "expo-router";
 import Button from "@/components/ui/Button";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { COLORS } from "@/services/Colors";
 
 export default function Landing() {
   const imageList = [
@@ -61,7 +61,7 @@ export default function Landing() {
       </View>
       <View
         style={{
-          backgroundColor: Colors.WHITE,
+          backgroundColor: COLORS.WHITE,
           height: "100%",
           padding: 20,
           marginTop: -23,
@@ -81,7 +81,7 @@ export default function Landing() {
             fontFamily: "outfit",
             fontSize: 17,
             textAlign: "center",
-            color: Colors.GRAY,
+            color: COLORS.GRAY,
             marginTop: 7,
           }}
         >
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   button: {
-    backgroundColor: Colors.PRIMARY,
+    backgroundColor: COLORS.PRIMARY,
     padding: 15,
     borderRadius: 12,
     marginTop: 20,
