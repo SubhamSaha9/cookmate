@@ -1,8 +1,11 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import { Marquee } from "@animatereactnative/marquee";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import React from "react";
 import Colors from "@/services/Colors";
+import { useRouter } from "expo-router";
+import Button from "@/components/ui/Button";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Landing() {
   const imageList = [
@@ -18,6 +21,7 @@ export default function Landing() {
     require("../assets/images/1.jpg"),
     require("../assets/images/6.jpg"),
   ];
+  const router = useRouter();
   return (
     <GestureHandlerRootView>
       <View>
@@ -84,21 +88,10 @@ export default function Landing() {
           Generate delicious recipes in seconds with the power of AI! 🍔✨
         </Text>
 
-        <TouchableOpacity
-          onPress={() => console.log("Button clicked")}
-          style={styles.button}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              color: Colors.WHITE,
-              fontSize: 17,
-              fontFamily: "outfit",
-            }}
-          >
-            Get Started
-          </Text>
-        </TouchableOpacity>
+        <Button
+          text="Get Started"
+          onPress={() => router.push("/(auth)" as any)}
+        />
       </View>
     </GestureHandlerRootView>
   );

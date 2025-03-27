@@ -1,5 +1,8 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import SafeScreen from "@/components/common/SafeScreen";
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -7,8 +10,14 @@ export default function RootLayout() {
     outfit: require("./../assets/fonts/Outfit-Regular.ttf"),
   });
   return (
-    <Stack>
-      <Stack.Screen name="Landing" options={{ headerShown: false }} />
-    </Stack>
+    <SafeAreaProvider>
+      <SafeScreen>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Landing" />
+          <Stack.Screen name="(auth)" />
+        </Stack>
+      </SafeScreen>
+      <StatusBar style="dark" />
+    </SafeAreaProvider>
   );
 }
