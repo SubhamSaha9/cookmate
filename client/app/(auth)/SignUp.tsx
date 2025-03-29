@@ -4,22 +4,48 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import styles from "@/services/SignupStyle";
 import Input from "@/components/ui/Input";
 import { useRouter } from "expo-router";
 import AnimateButton from "@/components/ui/AnimateButton";
+import axios from "axios";
 
+const BASE_URI = process.env.EXPO_PUBLIC_API_URL;
 export default function SignUp() {
   const router = useRouter();
-  const [Username, setUsername] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [hidePassword, setHidePassword] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSignup = async () => {};
+  const handleSignup = async () => {
+    setLoading(true);
+    const formdata = {
+      userName: username,
+      email: email,
+      password,
+    };
+    try {
+      const { data } = await axios.post(`${BASE_URI}/auth/sign-up`, formdata);
+      console.log(data);
+      if (!data.success) {
+        console.log(data.message);
+        setLoading(false);
+        return;
+      }
+
+      router.back();
+    } catch (error: any) {
+      console.log({ ...error });
+      console.log(error?.response?.data.message ?? error.message);
+      Alert.alert("Error", error.message);
+    }
+    setLoading(false);
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -37,7 +63,7 @@ export default function SignUp() {
               <Text style={styles.label}>Username</Text>
               <Input
                 placeholder={"John Doe"}
-                value={Username}
+                value={username}
                 onChangeText={setUsername}
                 icon={"person-outline"}
               />

@@ -16,6 +16,7 @@ export default function RootLayout() {
     "outfit-bold": require("./../assets/fonts/Outfit-Bold.ttf"),
     outfit: require("./../assets/fonts/Outfit-Regular.ttf"),
   });
+
   return (
     <SafeAreaProvider>
       <SafeScreen>
