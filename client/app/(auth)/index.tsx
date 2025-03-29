@@ -14,8 +14,11 @@ import Input from "@/components/ui/Input";
 import { LoginColors } from "@/services/Colors";
 import AnimateButton from "@/components/ui/AnimateButton";
 import { Link } from "expo-router";
+import { useDispatch } from "react-redux";
+import { setToken } from "@/slice/authSlice";
 
 export default function SignIn() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [hidePassword, setHidePassword] = useState<boolean>(true);
@@ -23,6 +26,7 @@ export default function SignIn() {
 
   const handleLogin = async () => {
     console.log("chicked");
+    dispatch(setToken("subham"));
   };
   return (
     <KeyboardAvoidingView

@@ -2,7 +2,14 @@ import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Provider } from "react-redux";
 import SafeScreen from "@/components/common/SafeScreen";
+import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "@/reducer/index";
+
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -12,10 +19,12 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <SafeScreen>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Landing" />
-          <Stack.Screen name="(auth)" />
-        </Stack>
+        <Provider store={store}>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Landing" />
+            <Stack.Screen name="(auth)" />
+          </Stack>
+        </Provider>
       </SafeScreen>
       <StatusBar style="dark" />
     </SafeAreaProvider>
