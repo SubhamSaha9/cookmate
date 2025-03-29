@@ -1,44 +1,47 @@
 import {
   View,
   Text,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-import styles from "@/services/LoginStyle";
+import styles from "@/services/SignupStyle";
 import Input from "@/components/ui/Input";
-import { LoginColors } from "@/services/Colors";
-import AnimateButton from "@/components/ui/AnimateButton";
 import { Link } from "expo-router";
+import AnimateButton from "@/components/ui/AnimateButton";
 
-export default function SignIn() {
+export default function SignUp() {
+  const [Username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [hidePassword, setHidePassword] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleLogin = async () => {
-    console.log("chicked");
-  };
+  const handleSignup = async () => {};
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View style={styles.container}>
-        <View style={styles.topIllustration}>
-          <Image
-            source={require("../../assets/images/logo.png")}
-            style={styles.illustrationImage}
-            resizeMode="contain"
-          />
-        </View>
         <View style={styles.card}>
+          <View style={styles.header}>
+            <Text style={styles.title}>CookMate🍳</Text>
+            <Text style={styles.subtitle}>Share your favorite recipes</Text>
+          </View>
           <View style={styles.formContainer}>
+            {/* USERNAME */}
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Username</Text>
+              <Input
+                placeholder={"John Doe"}
+                value={Username}
+                onChangeText={setUsername}
+                icon={"person-outline"}
+              />
+            </View>
+
             {/* Email */}
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Email</Text>
@@ -68,15 +71,15 @@ export default function SignIn() {
             {/* Button */}
             <AnimateButton
               loading={loading}
-              onPress={handleLogin}
-              text="Login"
+              onPress={handleSignup}
+              text="Sign Up"
             />
 
             <View style={styles.footer}>
               <Text style={styles.footerText}>Don't have an account?</Text>
-              <Link href={"/(auth)/SignUp"} asChild>
+              <Link href={"/(auth)"} asChild>
                 <TouchableOpacity>
-                  <Text style={styles.link}>Sign Up</Text>
+                  <Text style={styles.link}>Login</Text>
                 </TouchableOpacity>
               </Link>
             </View>

@@ -6,9 +6,11 @@ import styles from "@/services/LoginStyle";
 export default function AnimateButton({
   loading,
   onPress,
+  text,
 }: {
   loading: boolean;
   onPress: () => void;
+  text: string;
 }) {
   return (
     <TouchableOpacity
@@ -19,7 +21,7 @@ export default function AnimateButton({
       {loading ? (
         <ActivityIndicator color={LoginColors.white} />
       ) : (
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText}>{text}</Text>
       )}
     </TouchableOpacity>
   );
