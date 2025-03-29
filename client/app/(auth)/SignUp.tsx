@@ -8,10 +8,11 @@ import {
 import React, { useState } from "react";
 import styles from "@/services/SignupStyle";
 import Input from "@/components/ui/Input";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import AnimateButton from "@/components/ui/AnimateButton";
 
 export default function SignUp() {
+  const router = useRouter();
   const [Username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -77,11 +78,9 @@ export default function SignUp() {
 
             <View style={styles.footer}>
               <Text style={styles.footerText}>Don't have an account?</Text>
-              <Link href={"/(auth)"} asChild>
-                <TouchableOpacity>
-                  <Text style={styles.link}>Login</Text>
-                </TouchableOpacity>
-              </Link>
+              <TouchableOpacity onPress={() => router.back()}>
+                <Text style={styles.link}>Login</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
