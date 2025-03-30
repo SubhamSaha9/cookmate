@@ -33,11 +33,12 @@ export default function SignUp() {
       const { data } = await axios.post(`${BASE_URI}/auth/sign-up`, formdata);
       console.log(data);
       if (!data.success) {
-        console.log(data.message);
+        Alert.alert("Error", data.message);
+
         setLoading(false);
         return;
       }
-
+      Alert.alert("Success!", data.message);
       router.back();
     } catch (error: any) {
       console.log(error?.response?.data.message ?? error.message);
