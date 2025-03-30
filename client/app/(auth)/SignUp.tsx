@@ -40,9 +40,8 @@ export default function SignUp() {
 
       router.back();
     } catch (error: any) {
-      console.log({ ...error });
       console.log(error?.response?.data.message ?? error.message);
-      Alert.alert("Error", error.message);
+      Alert.alert("Error", error?.response?.data.message ?? error.message);
     }
     setLoading(false);
   };

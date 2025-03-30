@@ -7,26 +7,54 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import styles from "@/services/LoginStyle";
 import Input from "@/components/ui/Input";
 import { LoginColors } from "@/services/Colors";
 import AnimateButton from "@/components/ui/AnimateButton";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useDispatch } from "react-redux";
-import { setToken } from "@/slice/authSlice";
+import { setToken, setUser } from "@/slice/authSlice";
+import axios from "axios";
+import { setItemAsync } from "expo-secure-store";
 
+const BASE_URI = process.env.EXPO_PUBLIC_API_URL;
 export default function SignIn() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [hidePassword, setHidePassword] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleLogin = async () => {
-    console.log("chicked");
-    dispatch(setToken("subham"));
+    setLoading(true);
+    const formdata = {
+      email: email,
+      password,
+    };
+    try {
+      const { data } = await axios.post(`${BASE_URI}/auth/sign-in`, formdata);
+      console.log(data);
+      if (!data.success) {
+        console.log(data.message);
+        Alert.alert("Error", data.message);
+        setLoading(false);
+        return;
+      }
+
+      await setItemAsync("token", JSON.stringify(data.token));
+      await setItemAsync("user", JSON.stringify(data.user));
+      dispatch(setUser(data.user));
+      dispatch(setToken(data.token));
+      router.replace("/(tabs)/Home" as any);
+    } catch (error: any) {
+      console.log(error?.response?.data.message ?? error.message);
+      Alert.alert("Error", error?.response?.data.message ?? error.message);
+    }
+    setLoading(false);
   };
   return (
     <KeyboardAvoidingView
