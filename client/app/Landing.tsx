@@ -6,8 +6,11 @@ import { useRouter } from "expo-router";
 import Button from "@/components/ui/Button";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { COLORS } from "@/services/Colors";
+import { useSelector } from "react-redux";
+import { RootState } from "@/reducer";
 
 export default function Landing() {
+  const { token } = useSelector((state: RootState) => state.auth);
   const imageList = [
     require("../assets/images/1.jpg"),
     require("../assets/images/c1.jpg"),
@@ -90,7 +93,9 @@ export default function Landing() {
 
         <Button
           text="Get Started"
-          onPress={() => router.push("/(auth)" as any)}
+          onPress={() =>
+            router.push(`${token ? "/(tabs)/Home" : "/(auth)"}` as any)
+          }
         />
       </View>
     </GestureHandlerRootView>

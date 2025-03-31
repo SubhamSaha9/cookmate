@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Index() {
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.auth);
+
   const checkAsyncAuth = async () => {
     const jsonToken = await getItemAsync("token");
     const jsonUser = await getItemAsync("user");

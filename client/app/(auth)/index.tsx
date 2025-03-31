@@ -18,7 +18,7 @@ import { Link, useRouter } from "expo-router";
 import { useDispatch } from "react-redux";
 import { setToken, setUser } from "@/slice/authSlice";
 import axios from "axios";
-import { setItemAsync } from "expo-secure-store";
+import { getItemAsync, setItemAsync } from "expo-secure-store";
 
 const BASE_URI = process.env.EXPO_PUBLIC_API_URL;
 export default function SignIn() {
@@ -49,6 +49,8 @@ export default function SignIn() {
       await setItemAsync("user", JSON.stringify(data.user));
       dispatch(setUser(data.user));
       dispatch(setToken(data.token));
+      const check = await getItemAsync("token");
+      console.log("Saved token check:", check);
       router.replace("/(tabs)/Home" as any);
     } catch (error: any) {
       console.log(error?.response?.data.message ?? error.message);
