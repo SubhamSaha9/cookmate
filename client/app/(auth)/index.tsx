@@ -37,9 +37,7 @@ export default function SignIn() {
     };
     try {
       const { data } = await axios.post(`${BASE_URI}/auth/sign-in`, formdata);
-      console.log(data);
       if (!data.success) {
-        console.log(data.message);
         Alert.alert("Error", data.message);
         setLoading(false);
         return;
@@ -49,8 +47,6 @@ export default function SignIn() {
       await setItemAsync("user", JSON.stringify(data.user));
       dispatch(setUser(data.user));
       dispatch(setToken(data.token));
-      const check = await getItemAsync("token");
-      console.log("Saved token check:", check);
       router.replace("/(tabs)/Home" as any);
     } catch (error: any) {
       console.log(error?.response?.data.message ?? error.message);

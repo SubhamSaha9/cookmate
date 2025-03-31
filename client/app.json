@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "client2",
-    "slug": "client2",
+    "name": "cookmate",
+    "slug": "cookmate",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "client2",
+    "scheme": "cookmate",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

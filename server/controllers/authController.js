@@ -26,7 +26,7 @@ exports.signUp = async (req, res) => {
             userName,
             email,
             password: hassedPass,
-            image: `https://api.dicebear.com/5.x/initials/svg?seed=${userName}`
+            image: `https://api.dicebear.com/5.x/initials/png?seed=${userName}`
         })
 
         return res.status(200).json({

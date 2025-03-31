@@ -1,5 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState = {
+
+interface IUser {
+  _id: string;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
+  email: string;
+  image: string;
+  userName: string;
+}
+
+interface AuthState {
+  user: IUser | null;
+  token: string | null;
+}
+const initialState: AuthState = {
     user: null,
     token: null
 };
@@ -13,7 +28,6 @@ const authSlice = createSlice({
         },
         setToken(state, value) {
             state.token = value.payload;
-            console.log(value);
         },
         checkAuth(state, action) {
             state.token = action.payload.token;
