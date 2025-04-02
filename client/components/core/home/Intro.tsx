@@ -5,7 +5,6 @@ import { RootState } from "@/reducer";
 
 export default function Intro() {
   const { user } = useSelector((state: RootState) => state.auth);
-  //   console.log(user);
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
   return (
     <View
