@@ -31,3 +31,26 @@ exports.createCategory = async (req, res) => {
         })
     }
 }
+
+exports.getAllCategory = async (req, res) => {
+    try {
+        const categories = await Category.find({});
+        if (!categories) {
+            return res.status(404).json({
+                success: false,
+                message: "No categories found!",
+            })
+        }
+        return res.status(200).json({
+            success: true,
+            data: categories,
+            message: "Categories fetched successfully!",
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
+}
