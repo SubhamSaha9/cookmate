@@ -3,6 +3,7 @@ import React from "react";
 import { COLORS } from "@/services/Colors";
 import Intro from "@/components/core/home/Intro";
 import CreateRecipe from "@/components/core/home/CreateRecipe";
+import Category from "@/components/core/home/Category";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       {/* Recipe generator UI */}
       <CreateRecipe />
       {/* Category */}
+      <Category />
     </ScrollView>
   );
 }
