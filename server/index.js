@@ -3,15 +3,25 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
 const cors = require("cors");
+const cookieParser = require("cookie-parser")
+const fileUpload = require("express-fileupload")
+
 const { connect } = require("./config/database");
 const { cloudinaryConnect } = require("./config/cloudinary");
 const userRoute = require("./routes/auth");
 
 app.use(express.json());
+app.use(cookieParser())
 app.use(
     cors({
         origin: process.env.ORIGIN,
         credentials: true,
+    })
+);
+app.use(
+    fileUpload({
+        useTempFiles: true,
+        tempFileDir: "/tmp/",
     })
 );
 
