@@ -9,6 +9,7 @@ const fileUpload = require("express-fileupload")
 const { connect } = require("./config/database");
 const { cloudinaryConnect } = require("./config/cloudinary");
 const userRoute = require("./routes/auth");
+const categoryRoute = require("./routes/category");
 
 app.use(express.json());
 app.use(cookieParser())
@@ -29,6 +30,7 @@ connect();
 cloudinaryConnect();
 
 app.use("/api/v1/auth", userRoute);
+app.use("/api/v1/category", categoryRoute);
 app.get("/", (req, res) => {
     return res.json({
         success: true,
