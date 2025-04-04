@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { COLORS } from "@/styles/Colors";
 import Intro from "@/components/core/home/Intro";
@@ -7,7 +7,7 @@ import Category from "@/components/core/home/Category";
 
 export default function Home() {
   return (
-    <ScrollView
+    <View
       style={{
         height: "100%",
         backgroundColor: COLORS.WHITE,
@@ -16,10 +16,12 @@ export default function Home() {
     >
       {/* Intro */}
       <Intro />
+
       {/* Recipe generator UI */}
       <CreateRecipe />
+
       {/* Category */}
       <Category />
-    </ScrollView>
+    </View>
   );
 }

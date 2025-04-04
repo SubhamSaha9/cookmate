@@ -1,4 +1,12 @@
-import { View, Text, Image, StyleSheet, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TextInput,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import ActionSheet, { ActionSheetRef } from "react-native-actions-sheet";
 import React, { useRef, useState } from "react";
 import { COLORS } from "@/styles/Colors";
@@ -6,6 +14,7 @@ import AnimateButton from "@/components/ui/AnimateButton";
 import { recipeGenerator } from "@/utils/AIModel";
 import PROMPT from "@/utils/prompt";
 import Loading from "@/components/ui/Loading";
+import axios from "axios";
 
 interface recipeOptionProps {
   recipeName: string;
@@ -13,6 +22,7 @@ interface recipeOptionProps {
   ingredients: [string];
 }
 
+const BASE_URL = process.env.EXPO_PUBLIC_AIGURULAB_API_URL;
 export default function CreateRecipe() {
   const [loading, setLoading] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
@@ -40,6 +50,56 @@ export default function CreateRecipe() {
       console.log(error);
       Alert.alert("Error", "Something went wrong while generating suggessions");
     }
+  };
+
+  const generateImage = async (imagePrompt: string) => {
+    try {
+      const result = await axios.post(
+        BASE_URL + "/api/generate-image",
+        {
+          width: 1024,
+          height: 1024,
+          input: imagePrompt,
+          model: "sdxl", //'flux'
+          aspectRatio: "1:1", //Applicable to Flux model only
+        },
+        {
+          headers: {
+            "x-api-key": process.env.EXPO_PUBLIC_AIGURULAB_API_KEY, // Your API Key
+            "Content-Type": "application/json", // Content Type
+          },
+        }
+      );
+
+      if (!result.data) {
+        Alert.alert("Something went wrong!");
+        return;
+      }
+      return result.data;
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error", "Something went wrong while generating the image");
+    }
+  };
+  const generateCompleteRecipe = async (option: recipeOptionProps) => {
+    actionSheetRef.current?.hide();
+    setLoader(true);
+    try {
+      const prompt =
+        "recipeName:" +
+        option.recipeName +
+        "Description" +
+        option.description +
+        PROMPT.GENERATE_COMPLETE_RECIPE_PROMPT;
+      const { response } = await recipeGenerator.sendMessage(prompt);
+      const content = response.text();
+      const jsonContent = JSON.parse(content);
+      const imageRes = await generateImage(jsonContent.imagePrompt);
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error");
+    }
+    setLoader(false);
   };
   return (
     <View style={styles.container}>
@@ -69,21 +129,25 @@ export default function CreateRecipe() {
           loading={loading}
         />
       </View>
-      {/* <Loading visible={loader} /> */}
+      <Loading visible={loader} />
       <ActionSheet ref={actionSheetRef}>
         <View style={styles.actionSheetContainer}>
           <Text style={styles.heading}>Select Recipe</Text>
           <View>
             {recipeOptions.length > 0 &&
               recipeOptions.map((option, i) => (
-                <View key={i} style={styles.recipeOptionContainer}>
+                <TouchableOpacity
+                  onPress={() => generateCompleteRecipe(option)}
+                  key={i}
+                  style={styles.recipeOptionContainer}
+                >
                   <Text style={styles.recipeOptionName}>
                     {option.recipeName}
                   </Text>
                   <Text style={styles.recipeOptionDesc}>
                     {option.description}
                   </Text>
-                </View>
+                </TouchableOpacity>
               ))}
           </View>
         </View>
