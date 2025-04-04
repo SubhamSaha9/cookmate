@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, TextInput } from "react-native";
 import React, { useState } from "react";
-import { COLORS } from "@/services/Colors";
+import { COLORS } from "@/styles/Colors";
 import AnimateButton from "@/components/ui/AnimateButton";
 
 export default function CreateRecipe() {
@@ -41,15 +41,16 @@ export default function CreateRecipe() {
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
-    padding: 12,
+    padding: 10,
     backgroundColor: COLORS.SECONDARY,
     borderRadius: 22,
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
   },
   panImage: {
-    width: 80,
-    height: 80,
+    width: 75,
+    height: 75,
   },
   heading: {
     fontFamily: "outfit",
@@ -59,16 +60,16 @@ const styles = StyleSheet.create({
   subHeading: {
     fontFamily: "outfit",
     fontSize: 16,
-    marginTop: 6,
+    marginTop: 5,
   },
   inputText: {
     backgroundColor: COLORS.WHITE,
     width: "100%",
     borderRadius: 15,
-    height: 110,
+    height: 100,
     marginTop: 8,
-    padding: 15,
+    padding: 10,
     textAlignVertical: "top",
-    fontSize: 18,
+    fontSize: 17,
   },
 });

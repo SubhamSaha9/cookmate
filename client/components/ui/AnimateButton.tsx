@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import React from "react";
-import { LoginColors } from "@/services/Colors";
-import styles from "@/services/LoginStyle";
+import { LoginColors } from "@/styles/Colors";
+import styles from "@/styles/LoginStyle";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function AnimateButton({

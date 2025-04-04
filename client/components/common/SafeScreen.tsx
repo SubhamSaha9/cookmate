@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import { COLORS } from "@/services/Colors";
+import { COLORS } from "@/styles/Colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SafeScreen({ children }: { children: any }) {

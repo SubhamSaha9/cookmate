@@ -5,7 +5,7 @@ import React from "react";
 import { useRouter } from "expo-router";
 import Button from "@/components/ui/Button";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { COLORS } from "@/services/Colors";
+import { COLORS } from "@/styles/Colors";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reducer";
 

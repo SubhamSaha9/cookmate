@@ -1,6 +1,6 @@
-import { View, Text, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import React from "react";
-import { COLORS } from "@/services/Colors";
+import { COLORS } from "@/styles/Colors";
 import Intro from "@/components/core/home/Intro";
 import CreateRecipe from "@/components/core/home/CreateRecipe";
 import Category from "@/components/core/home/Category";

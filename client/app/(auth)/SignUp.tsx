@@ -7,7 +7,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import styles from "@/services/SignupStyle";
+import styles from "@/styles/SignupStyle";
 import Input from "@/components/ui/Input";
 import { useRouter } from "expo-router";
 import AnimateButton from "@/components/ui/AnimateButton";

@@ -10,9 +10,9 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import styles from "@/services/LoginStyle";
+import styles from "@/styles/LoginStyle";
 import Input from "@/components/ui/Input";
-import { LoginColors } from "@/services/Colors";
+import { LoginColors } from "@/styles/Colors";
 import AnimateButton from "@/components/ui/AnimateButton";
 import { Link, useRouter } from "expo-router";
 import { useDispatch } from "react-redux";

@@ -1,8 +1,8 @@
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import React from "react";
-import styles from "@/services/LoginStyle";
+import styles from "@/styles/LoginStyle";
 import { Ionicons } from "@expo/vector-icons";
-import { LoginColors } from "@/services/Colors";
+import { LoginColors } from "@/styles/Colors";
 
 export default function Input({
   value,
