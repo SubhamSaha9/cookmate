@@ -15,6 +15,8 @@ import { recipeGenerator } from "@/utils/AIModel";
 import PROMPT from "@/utils/prompt";
 import Loading from "@/components/ui/Loading";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "@/reducer";
 
 interface recipeOptionProps {
   recipeName: string;
@@ -22,8 +24,10 @@ interface recipeOptionProps {
   ingredients: [string];
 }
 
-const BASE_URL = process.env.EXPO_PUBLIC_AIGURULAB_API_URL;
+const AIGURULAB_URL = process.env.EXPO_PUBLIC_AIGURULAB_API_URL;
+const BASE_URI = process.env.EXPO_PUBLIC_API_URL;
 export default function CreateRecipe() {
+  const { token } = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
   const [userInput, setUserInput] = useState<string>("");
@@ -55,7 +59,7 @@ export default function CreateRecipe() {
   const generateImage = async (imagePrompt: string) => {
     try {
       const result = await axios.post(
-        BASE_URL + "/api/generate-image",
+        AIGURULAB_URL + "/api/generate-image",
         {
           width: 1024,
           height: 1024,
@@ -81,6 +85,26 @@ export default function CreateRecipe() {
       Alert.alert("Error", "Something went wrong while generating the image");
     }
   };
+
+  const saveToDB = async (recipe: any) => {
+    try {
+      const { data } = await axios.post(
+        `${BASE_URI}/recipe/create-recipe`,
+        recipe,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (!data.success) {
+        Alert.alert("Error", data.message);
+        return;
+      }
+
+      return data.data;
+    } catch (error: any) {
+      console.log(error);
+      Alert.alert("Error", error.response?.data.message ?? error.message);
+    }
+  };
   const generateCompleteRecipe = async (option: recipeOptionProps) => {
     actionSheetRef.current?.hide();
     setLoader(true);
@@ -94,12 +118,15 @@ export default function CreateRecipe() {
       const { response } = await recipeGenerator.sendMessage(prompt);
       const content = response.text();
       const jsonContent = JSON.parse(content);
-      const imageRes = await generateImage(jsonContent.imagePrompt);
-    } catch (error) {
+      const { image } = await generateImage(jsonContent.imagePrompt);
+      const data = await saveToDB({ ...jsonContent, image });
+      console.log("data from save DB", data);
+      setLoader(false);
+    } catch (error: any) {
       console.log(error);
-      Alert.alert("Error");
+      Alert.alert("Error", error.message);
+      setLoader(false);
     }
-    setLoader(false);
   };
   return (
     <View style={styles.container}>

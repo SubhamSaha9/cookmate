@@ -11,7 +11,9 @@ const { cloudinaryConnect } = require("./config/cloudinary");
 const userRoute = require("./routes/auth");
 const categoryRoute = require("./routes/category");
 const recipeRoute = require("./routes/recipe");
+const job = require("./utils/cron");
 
+job.start();
 app.use(express.json());
 app.use(cookieParser())
 app.use(
