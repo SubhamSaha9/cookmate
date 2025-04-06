@@ -111,6 +111,7 @@ export default function CreateRecipe() {
       Alert.alert("Error", error.response?.data.message ?? error.message);
     }
   };
+
   const generateCompleteRecipe = async (option: recipeOptionProps) => {
     actionSheetRef.current?.hide();
     setLoader(true);
@@ -134,7 +135,7 @@ export default function CreateRecipe() {
       setLoader(false);
     } catch (error: any) {
       console.log(error);
-      Alert.alert("Error", error.message);
+      Alert.alert("Error", error.response?.data.message ?? error.message);
       setLoader(false);
     }
   };

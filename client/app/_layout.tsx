@@ -25,6 +25,14 @@ export default function RootLayout() {
             <Stack.Screen name="Landing" />
             <Stack.Screen name="(auth)" />
             <Stack.Screen name="(tabs)" />
+            <Stack.Screen
+              name="recipe-by-category/index"
+              options={{
+                headerTransparent: true,
+                headerShown: true,
+                headerTitle: "",
+              }}
+            />
           </Stack>
         </Provider>
       </SafeScreen>

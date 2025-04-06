@@ -1,9 +1,18 @@
-import { View, Text, Alert, StyleSheet, Image, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  Alert,
+  StyleSheet,
+  Image,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reducer";
 import Loading from "@/components/ui/Loading";
+import { useRouter } from "expo-router";
 
 interface CategoryProps {
   name: string;
@@ -81,6 +90,7 @@ const BASE_URI = process.env.EXPO_PUBLIC_API_URL;
 // ];
 export default function Category() {
   const { token } = useSelector((state: RootState) => state.auth);
+  const router = useRouter();
   const [categories, setCategories] = useState<CategoryProps[] | null>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -120,7 +130,15 @@ export default function Category() {
           numColumns={4}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => (
-            <View style={styles.categoryContainer}>
+            <TouchableOpacity
+              style={styles.categoryContainer}
+              onPress={() =>
+                router.push({
+                  pathname: "/recipe-by-category" as any,
+                  params: { categoryName: item.name, categoryId: item._id },
+                })
+              }
+            >
               <Image
                 source={{ uri: item.image }}
                 style={{ width: 40, height: 40 }}
@@ -134,7 +152,7 @@ export default function Category() {
               >
                 {item.name}
               </Text>
-            </View>
+            </TouchableOpacity>
           )}
         />
       )}
