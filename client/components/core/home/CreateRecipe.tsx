@@ -15,8 +15,9 @@ import { recipeGenerator } from "@/utils/AIModel";
 import PROMPT from "@/utils/prompt";
 import Loading from "@/components/ui/Loading";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/reducer";
+import { setUser } from "@/slice/authSlice";
 
 interface recipeOptionProps {
   recipeName: string;
@@ -28,6 +29,7 @@ const AIGURULAB_URL = process.env.EXPO_PUBLIC_AIGURULAB_API_URL;
 const BASE_URI = process.env.EXPO_PUBLIC_API_URL;
 export default function CreateRecipe() {
   const { token, user } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
   const [userInput, setUserInput] = useState<string>("");
@@ -58,6 +60,10 @@ export default function CreateRecipe() {
 
   const generateImage = async (imagePrompt: string) => {
     try {
+      if (user?.credits && user?.credits < 1) {
+        Alert.alert("Error", "Insufficient Credit");
+        throw new Error("Insufficient credits");
+      }
       const result = await axios.post(
         AIGURULAB_URL + "/api/generate-image",
         {
@@ -119,9 +125,12 @@ export default function CreateRecipe() {
       const content = response.text();
       const jsonContent = JSON.parse(content);
       const { image } = await generateImage(jsonContent.imagePrompt);
-      const email = user?.email;
-      const data = await saveToDB({ ...jsonContent, image, email });
-      console.log("data from save DB", data);
+      const data = await saveToDB({
+        ...jsonContent,
+        image,
+        email: user?.email,
+      });
+      dispatch(setUser({ ...user, credits: data.credits }));
       setLoader(false);
     } catch (error: any) {
       console.log(error);

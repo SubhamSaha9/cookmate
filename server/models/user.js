@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     image: {
         type: String,
     },
+    credits: {
+        type: Number,
+        default: 5,
+    }
 },
     { timestamps: true }
 );
