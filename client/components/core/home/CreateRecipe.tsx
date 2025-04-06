@@ -27,7 +27,7 @@ interface recipeOptionProps {
 const AIGURULAB_URL = process.env.EXPO_PUBLIC_AIGURULAB_API_URL;
 const BASE_URI = process.env.EXPO_PUBLIC_API_URL;
 export default function CreateRecipe() {
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { token, user } = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
   const [userInput, setUserInput] = useState<string>("");
@@ -119,7 +119,8 @@ export default function CreateRecipe() {
       const content = response.text();
       const jsonContent = JSON.parse(content);
       const { image } = await generateImage(jsonContent.imagePrompt);
-      const data = await saveToDB({ ...jsonContent, image });
+      const email = user?.email;
+      const data = await saveToDB({ ...jsonContent, image, email });
       console.log("data from save DB", data);
       setLoader(false);
     } catch (error: any) {

@@ -58,6 +58,10 @@ const recipeSchema = new mongoose.Schema({
         trim: true,
         required: false,
     },
+    userId: {
+        type: String,
+        required: true,
+    }
 }, { timestamps: true });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);

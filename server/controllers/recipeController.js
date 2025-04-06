@@ -2,9 +2,9 @@ const Recipe = require("../models/recipe");
 
 exports.createRecipe = async (req, res) => {
     try {
-        const { recipeName, description, ingredients, steps, calories, cookTime, serveTo, imagePrompt, image } = req.body;
+        const { recipeName, description, ingredients, steps, calories, cookTime, serveTo, imagePrompt, image, email } = req.body;
 
-        if (!recipeName || !description || !ingredients?.length || !steps?.length || !calories || !cookTime || !serveTo || !imagePrompt || !image) {
+        if (!recipeName || !description || !ingredients?.length || !steps?.length || !calories || !cookTime || !serveTo || !imagePrompt || !image || !email) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required!",
@@ -28,7 +28,8 @@ exports.createRecipe = async (req, res) => {
             cookTime,
             serveTo,
             imagePrompt,
-            image
+            image,
+            userId: email,
         });
 
         return res.status(200).json({
