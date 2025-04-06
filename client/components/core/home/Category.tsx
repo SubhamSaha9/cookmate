@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reducer";
+import Loading from "@/components/ui/Loading";
 
 interface CategoryProps {
   name: string;
@@ -80,7 +81,7 @@ const data = [
 ];
 export default function Category() {
   const { token } = useSelector((state: RootState) => state.auth);
-  const [categories, setCategories] = useState<CategoryProps[] | null>(data);
+  const [categories, setCategories] = useState<CategoryProps[] | null>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const getcategories = async () => {
@@ -105,34 +106,38 @@ export default function Category() {
     setLoading(false);
   };
 
-  // useEffect(()=>{
-  //     token && getcategories();
-  // },[])
+  useEffect(() => {
+    token && getcategories();
+  }, []);
   return (
     <View style={{ marginTop: 15 }}>
       <Text style={styles.heading}>Category</Text>
-      <FlatList
-        data={categories}
-        numColumns={4}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <View style={styles.categoryContainer}>
-            <Image
-              source={{ uri: item.image }}
-              style={{ width: 40, height: 40 }}
-            />
-            <Text
-              style={{
-                fontFamily: "outfit",
-                fontSize: 12,
-                marginTop: 3,
-              }}
-            >
-              {item.name}
-            </Text>
-          </View>
-        )}
-      />
+      {loading ? (
+        <Loading visible={loading} />
+      ) : (
+        <FlatList
+          data={categories}
+          numColumns={4}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => (
+            <View style={styles.categoryContainer}>
+              <Image
+                source={{ uri: item.image }}
+                style={{ width: 40, height: 40 }}
+              />
+              <Text
+                style={{
+                  fontFamily: "outfit",
+                  fontSize: 12,
+                  marginTop: 3,
+                }}
+              >
+                {item.name}
+              </Text>
+            </View>
+          )}
+        />
+      )}
     </View>
   );
 }

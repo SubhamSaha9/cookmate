@@ -11,4 +11,4 @@ const job = new corn.CronJob("*/14 * * * *", () => {
     }).on("error", (e) => console.log("Error while sending request.", e));
 })
 
-export default job;
+module.exports = job;
