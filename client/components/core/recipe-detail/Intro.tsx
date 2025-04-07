@@ -17,7 +17,7 @@ export default function Intro({ recipe }: { recipe: Recipe }) {
         style={styles.image}
       />
       <Text style={styles.heading}>{recipe.recipeName}</Text>
-      <Text style={styles.desc}>Description:</Text>
+      <Text style={styles.desc}>Description</Text>
       <Text style={styles.description}>{recipe.description}</Text>
 
       <View style={styles.dataBox}>
@@ -49,10 +49,11 @@ const styles = StyleSheet.create({
     fontFamily: "outfit",
     fontSize: 22,
     marginTop: 7,
+    textAlign: "center",
   },
   desc: {
     fontFamily: "outfit-bold",
-    fontSize: 17,
+    fontSize: 18,
     marginTop: 3,
   },
   description: {

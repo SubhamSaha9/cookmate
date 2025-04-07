@@ -1,20 +1,26 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, FlatList } from "react-native";
 import React from "react";
 import { useLocalSearchParams } from "expo-router";
 import Intro from "@/components/core/recipe-detail/Intro";
 import { COLORS } from "@/styles/Colors";
-import Ingredients from "@/components/core/recipe-detail/Ingredients";
+import Ingredient from "@/components/core/recipe-detail/Ingredient";
 
 export default function RecipeDetail() {
   const { jsonRecipe } = useLocalSearchParams();
   const recipe = JSON.parse(jsonRecipe as string);
   return (
-    <View style={styles.container}>
-      <Intro recipe={recipe} />
+    <FlatList
+      data={[]}
+      renderItem={() => null}
+      ListHeaderComponent={
+        <View style={styles.container}>
+          <Intro recipe={recipe} />
 
-      {/* Ingredient list */}
-      <Ingredients />
-    </View>
+          {/* Ingredient list */}
+          <Ingredient ingredients={recipe?.ingredients} />
+        </View>
+      }
+    />
   );
 }
 
