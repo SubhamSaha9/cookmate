@@ -105,7 +105,7 @@ export default function CreateRecipe() {
         return;
       }
 
-      return data.data;
+      return data;
     } catch (error: any) {
       console.log(error);
       Alert.alert("Error", error.response?.data.message ?? error.message);
@@ -132,7 +132,7 @@ export default function CreateRecipe() {
         image,
         email: user?.email,
       });
-      console.log("data.credits.........................", data.credits);
+      console.log("data.........................", data);
       dispatch(setUser({ ...user, credits: data.credits }));
       setLoader(false);
     } catch (error: any) {

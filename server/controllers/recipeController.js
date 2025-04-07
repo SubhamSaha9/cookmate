@@ -21,14 +21,14 @@ exports.createRecipe = async (req, res) => {
             })
         }
 
-        // const categoryList = await Category.findOne({ name: category });
-
         const categoryList = await Promise.all(
             category.map(async (item) => {
                 const category = await Category.findOne({ name: item });
                 return category._id;
             })
         );
+
+        console.log("categoryList", categoryList);
 
         const newRecipe = await Recipe.create({
             recipeName,
@@ -41,7 +41,7 @@ exports.createRecipe = async (req, res) => {
             imagePrompt,
             image,
             userId: email,
-            category: categoryList._id,
+            category: categoryList,
         });
         const user = await User.findOne({ email: email });
         user.credits -= 1;
@@ -58,6 +58,48 @@ exports.createRecipe = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: error.message,
+        })
+    }
+}
+
+exports.getRecipesByCategory = async (req, res) => {
+    try {
+        const { categoryId } = req.params;
+
+        if (!categoryId) {
+            return res.status(400).json({
+                success: false,
+                message: "Category is required!",
+            })
+        };
+
+        const item = await Category.findById(categoryId);
+        if (!item) {
+            return res.status(404).json({
+                success: false,
+                message: "Category not found!",
+            })
+        }
+
+        const filteredRecipes = await Recipe.find({ category: categoryId }).sort({ createdAt: -1 });
+
+        if (!filteredRecipes.length) {
+            return res.status(404).json({
+                success: false,
+                message: "No recipes found for this category!",
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Recipes fetched successfully",
+            data: filteredRecipes,
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: error.message
         })
     }
 }
