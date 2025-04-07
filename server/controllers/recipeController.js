@@ -6,7 +6,7 @@ exports.createRecipe = async (req, res) => {
     try {
         const { recipeName, description, ingredients, steps, calories, cookTime, serveTo, imagePrompt, image, email, category } = req.body;
 
-        if (!recipeName || !description || !ingredients?.length || !steps?.length || !calories || !cookTime || !serveTo || !imagePrompt || !image || !email || !category) {
+        if (!recipeName || !description || !ingredients?.length || !steps?.length || !calories || !cookTime || !serveTo || !imagePrompt || !image || !email || !category.length) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required!",
@@ -21,7 +21,15 @@ exports.createRecipe = async (req, res) => {
             })
         }
 
-        const categoryList = await Category.findOne({ name: category });
+        // const categoryList = await Category.findOne({ name: category });
+
+        const categoryList = await Promise.all(
+            category.map(async (item) => {
+                const category = await Category.findOne({ name: item });
+                return category._id;
+            })
+        );
+
         const newRecipe = await Recipe.create({
             recipeName,
             description,

@@ -62,10 +62,12 @@ const recipeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-    }
+    category: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category",
+        }
+    ]
 }, { timestamps: true });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);

@@ -141,34 +141,40 @@ export default function RecipeByCategory() {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Browse {categoryName} Recipes</Text>
-      <FlatList
-        data={recipeList}
-        keyExtractor={(item) => item._id}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <View
-            style={{
-              flex: 1,
-            }}
-          >
-            <RecipeCard recipe={item} />
-          </View>
-        )}
-      />
+      <View style={styles.flatlistContainer}>
+        <FlatList
+          data={recipeList}
+          keyExtractor={(item) => item._id}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
+              <RecipeCard recipe={item} />
+            </View>
+          )}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 45,
-    padding: 20,
     backgroundColor: COLORS.WHITE,
     height: "100%",
+  },
+  flatlistContainer: {
+    paddingTop: 10,
+    padding: 20,
   },
   heading: {
     fontFamily: "outfit-bold",
     fontSize: 22,
+    paddingTop: 13,
+    paddingLeft: 45,
   },
 });

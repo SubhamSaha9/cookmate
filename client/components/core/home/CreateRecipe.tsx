@@ -125,12 +125,14 @@ export default function CreateRecipe() {
       const { response } = await recipeGenerator.sendMessage(prompt);
       const content = response.text();
       const jsonContent = JSON.parse(content);
+      console.log("jsonContent................", jsonContent);
       const { image } = await generateImage(jsonContent.imagePrompt);
       const data = await saveToDB({
         ...jsonContent,
         image,
         email: user?.email,
       });
+      console.log("data.credits.........................", data.credits);
       dispatch(setUser({ ...user, credits: data.credits }));
       setLoader(false);
     } catch (error: any) {
