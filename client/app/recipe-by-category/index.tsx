@@ -1,8 +1,12 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
 import React, { useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { COLORS } from "@/styles/Colors";
 import RecipeCard from "@/components/common/RecipeCard";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "@/reducer";
+import Loading from "@/components/ui/Loading";
 
 interface Ingredient {
   ingredient: string;
@@ -21,7 +25,8 @@ export interface Recipe {
   serveTo: number;
   imagePrompt?: string;
   image: string;
-  category?: string;
+  category?: string[];
+  email?: string;
   createdAt?: string;
   updatedAt?: string;
   __v?: number;
@@ -133,14 +138,37 @@ const data = [
   },
 ];
 
+const BASE_URI = process.env.EXPO_PUBLIC_API_URL;
 export default function RecipeByCategory() {
+  const { token } = useSelector((state: RootState) => state.auth);
   const { categoryName, categoryId } = useLocalSearchParams();
   const [recipeList, setRecipeList] = useState<Recipe[]>(data);
+  const [loader, setLoader] = useState<boolean>(false);
 
-  const getCaategoryList = async () => {};
+  const getCaategoryList = async () => {
+    setLoader(true);
+    try {
+      const { data } = await axios.get(`${BASE_URI}/recipe/${categoryId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setLoader(false);
+      if (!data.success) {
+        Alert.alert("Error", data.message);
+        return;
+      }
+
+      setRecipeList(data.data);
+    } catch (error: any) {
+      setLoader(false);
+      console.log(error);
+      Alert.alert("Error", error?.response?.data.message ?? error.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Browse {categoryName} Recipes</Text>
+      <Loading visible={loader} text={`Fetching ${categoryName}`} />
       <View style={styles.flatlistContainer}>
         <FlatList
           data={recipeList}

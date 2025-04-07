@@ -12,8 +12,10 @@ export default function Loading({
   return (
     <Modal transparent visible={visible}>
       <View style={styles.overlay}>
-        <ActivityIndicator size={"large"} color={COLORS.PRIMARY} />
-        <Text style={styles.text}>{text}</Text>
+        <View style={styles.box}>
+          <ActivityIndicator size={"large"} color={COLORS.PRIMARY} />
+          <Text style={styles.text}>{text}</Text>
+        </View>
       </View>
     </Modal>
   );
@@ -28,8 +30,13 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 10,
-    color: COLORS.WHITE,
+    color: COLORS.PRIMARY,
     fontSize: 16,
     fontFamily: "outfit",
+  },
+  box: {
+    backgroundColor: COLORS.BORDER,
+    padding: 15,
+    borderRadius: 12,
   },
 });

@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import SafeScreen from "@/components/common/SafeScreen";
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "@/reducer/index";
+import { Ionicons } from "@expo/vector-icons";
 
 const store = configureStore({
   reducer: rootReducer,
@@ -31,6 +32,16 @@ export default function RootLayout() {
                 headerTransparent: true,
                 headerShown: true,
                 headerTitle: "",
+              }}
+            />
+            <Stack.Screen
+              name="recipe-detail/index"
+              options={{
+                headerShown: true,
+                headerTitle: "Detail",
+                headerRight: () => {
+                  return <Ionicons name="share" size={24} color={"black"} />;
+                },
               }}
             />
           </Stack>
