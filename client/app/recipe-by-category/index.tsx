@@ -12,7 +12,7 @@ export interface Ingredient {
   ingredient: string;
   icon: string;
   quantity: string;
-  _id?: string;
+  _id: string;
 }
 export interface Recipe {
   _id: string;
@@ -37,9 +37,9 @@ const data = [
     recipeName: "Classic Pancakes",
     description: "Fluffy and golden pancakes perfect for a hearty breakfast.",
     ingredients: [
-      { ingredient: "Flour", icon: "🥣", quantity: "1 cup" },
-      { ingredient: "Milk", icon: "🥛", quantity: "1 cup" },
-      { ingredient: "Egg", icon: "🥚", quantity: "1" },
+      { _id: "1", ingredient: "Flour", icon: "🥣", quantity: "1 cup" },
+      { _id: "1", ingredient: "Milk", icon: "🥛", quantity: "1 cup" },
+      { _id: "1", ingredient: "Egg", icon: "🥚", quantity: "1" },
     ],
     steps: [
       "Mix all dry ingredients in a bowl.",
@@ -58,9 +58,9 @@ const data = [
     description:
       "A quick and nutritious toast topped with smashed avocado and seasoning.",
     ingredients: [
-      { ingredient: "Bread", icon: "🍞", quantity: "2 slices" },
-      { ingredient: "Avocado", icon: "🥑", quantity: "1" },
-      { ingredient: "Lemon Juice", icon: "🍋", quantity: "1 tsp" },
+      { _id: "1", ingredient: "Bread", icon: "🍞", quantity: "2 slices" },
+      { _id: "1", ingredient: "Avocado", icon: "🥑", quantity: "1" },
+      { _id: "1", ingredient: "Lemon Juice", icon: "🍋", quantity: "1 tsp" },
     ],
     steps: [
       "Toast the bread slices.",
@@ -79,9 +79,9 @@ const data = [
     description:
       "Warm oats topped with fruits and nuts for a balanced start to the day.",
     ingredients: [
-      { ingredient: "Rolled Oats", icon: "🌾", quantity: "1/2 cup" },
-      { ingredient: "Milk", icon: "🥛", quantity: "1 cup" },
-      { ingredient: "Banana", icon: "🍌", quantity: "1 sliced" },
+      { _id: "1", ingredient: "Rolled Oats", icon: "🌾", quantity: "1/2 cup" },
+      { _id: "1", ingredient: "Milk", icon: "🥛", quantity: "1 cup" },
+      { _id: "1", ingredient: "Banana", icon: "🍌", quantity: "1 sliced" },
     ],
     steps: [
       "Boil oats in milk until soft.",
@@ -100,9 +100,9 @@ const data = [
     description:
       "Soft and creamy scrambled eggs made with butter and seasoning.",
     ingredients: [
-      { ingredient: "Eggs", icon: "🥚", quantity: "2" },
-      { ingredient: "Butter", icon: "🧈", quantity: "1 tbsp" },
-      { ingredient: "Salt", icon: "🧂", quantity: "to taste" },
+      { _id: "1", ingredient: "Eggs", icon: "🥚", quantity: "2" },
+      { _id: "1", ingredient: "Butter", icon: "🧈", quantity: "1 tbsp" },
+      { _id: "1", ingredient: "Salt", icon: "🧂", quantity: "to taste" },
     ],
     steps: [
       "Crack eggs into a bowl and whisk.",
@@ -121,9 +121,14 @@ const data = [
     description:
       "Layers of yogurt, berries, and granola for a refreshing breakfast treat.",
     ingredients: [
-      { ingredient: "Greek Yogurt", icon: "🍶", quantity: "1 cup" },
-      { ingredient: "Mixed Berries", icon: "🫐", quantity: "1/2 cup" },
-      { ingredient: "Granola", icon: "🥣", quantity: "1/3 cup" },
+      { _id: "1", ingredient: "Greek Yogurt", icon: "🍶", quantity: "1 cup" },
+      {
+        _id: "2",
+        ingredient: "Mixed Berries",
+        icon: "🫐",
+        quantity: "1/2 cup",
+      },
+      { _id: "3", ingredient: "Granola", icon: "🥣", quantity: "1/3 cup" },
     ],
     steps: [
       "Spoon yogurt into a glass.",

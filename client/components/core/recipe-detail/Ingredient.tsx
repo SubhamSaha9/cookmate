@@ -17,6 +17,7 @@ export default function Ingredient({
 
       <FlatList
         data={ingredients}
+        keyExtractor={(item) => item._id}
         renderItem={({ item }: { item: IngredientProps }) => (
           <View style={styles.listContainer}>
             <View style={styles.listView}>

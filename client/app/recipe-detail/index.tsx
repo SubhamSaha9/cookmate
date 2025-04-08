@@ -4,10 +4,12 @@ import { useLocalSearchParams } from "expo-router";
 import Intro from "@/components/core/recipe-detail/Intro";
 import { COLORS } from "@/styles/Colors";
 import Ingredient from "@/components/core/recipe-detail/Ingredient";
+import Steps from "@/components/core/recipe-detail/Steps";
+import { Recipe } from "../recipe-by-category";
 
 export default function RecipeDetail() {
   const { jsonRecipe } = useLocalSearchParams();
-  const recipe = JSON.parse(jsonRecipe as string);
+  const recipe: Recipe = JSON.parse(jsonRecipe as string);
   return (
     <FlatList
       data={[]}
@@ -18,6 +20,9 @@ export default function RecipeDetail() {
 
           {/* Ingredient list */}
           <Ingredient ingredients={recipe?.ingredients} />
+
+          {/* Steps */}
+          <Steps steps={recipe?.steps} />
         </View>
       }
     />
