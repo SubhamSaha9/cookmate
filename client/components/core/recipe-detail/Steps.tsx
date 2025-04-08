@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import React from "react";
+import { COLORS } from "@/styles/Colors";
 
 export default function Steps({ steps }: { steps: string[] }) {
   return (
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
   listContainer: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     gap: 7,
     padding: 10,
     marginTop: 10,
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
     width: 38,
     textAlign: "center",
     borderRadius: 7,
+    backgroundColor: COLORS.SECONDARY,
   },
   listText: {
     fontFamily: "outfit",

@@ -6,6 +6,7 @@ import { COLORS } from "@/styles/Colors";
 import Ingredient from "@/components/core/recipe-detail/Ingredient";
 import Steps from "@/components/core/recipe-detail/Steps";
 import { Recipe } from "../recipe-by-category";
+import CreateRecipe from "@/components/core/home/CreateRecipe";
 
 export default function RecipeDetail() {
   const { jsonRecipe } = useLocalSearchParams();
@@ -23,6 +24,13 @@ export default function RecipeDetail() {
 
           {/* Steps */}
           <Steps steps={recipe?.steps} />
+
+          {/* Footer */}
+          <Text style={styles.text}>
+            You're looking something else? Create A New One
+          </Text>
+
+          <CreateRecipe />
         </View>
       }
     />
@@ -35,5 +43,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.WHITE,
     padding: 20,
     paddingTop: 10,
+    marginBottom: 50,
+  },
+  text: {
+    marginTop: 15,
+    fontFamily: "outfit",
+    fontSize: 16,
+    textAlign: "center",
+    color: COLORS.GRAY,
   },
 });
