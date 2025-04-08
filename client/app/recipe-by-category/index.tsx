@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { COLORS } from "@/styles/Colors";
 import RecipeCard from "@/components/common/RecipeCard";
@@ -150,7 +150,7 @@ export default function RecipeByCategory() {
   const [recipeList, setRecipeList] = useState<Recipe[]>(data);
   const [loader, setLoader] = useState<boolean>(false);
 
-  const getCaategoryList = async () => {
+  const getRecipeByCategory = async () => {
     setLoader(true);
     try {
       const { data } = await axios.get(`${BASE_URI}/recipe/${categoryId}`, {
@@ -170,6 +170,9 @@ export default function RecipeByCategory() {
     }
   };
 
+  useEffect(() => {
+    token && getRecipeByCategory();
+  }, []);
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Browse {categoryName} Recipes</Text>
@@ -179,6 +182,8 @@ export default function RecipeByCategory() {
           data={recipeList}
           keyExtractor={(item) => item._id}
           numColumns={2}
+          refreshing={loader}
+          onRefresh={getRecipeByCategory}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <View

@@ -18,6 +18,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/reducer";
 import { setUser } from "@/slice/authSlice";
+import { useRouter } from "expo-router";
 
 interface recipeOptionProps {
   recipeName: string;
@@ -30,6 +31,7 @@ const BASE_URI = process.env.EXPO_PUBLIC_API_URL;
 export default function CreateRecipe() {
   const { token, user } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   const [loader, setLoader] = useState<boolean>(false);
   const [userInput, setUserInput] = useState<string>("");
@@ -125,15 +127,17 @@ export default function CreateRecipe() {
       const { response } = await recipeGenerator.sendMessage(prompt);
       const content = response.text();
       const jsonContent = JSON.parse(content);
-      console.log("jsonContent................", jsonContent);
       const { image } = await generateImage(jsonContent.imagePrompt);
       const data = await saveToDB({
         ...jsonContent,
         image,
         email: user?.email,
       });
-      console.log("data.........................", data);
       dispatch(setUser({ ...user, credits: data.credits }));
+      router.push({
+        pathname: "/recipe-detail" as any,
+        params: { jsonRecipe: JSON.stringify(data.data) },
+      });
       setLoader(false);
     } catch (error: any) {
       console.log(error);
