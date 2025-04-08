@@ -153,9 +153,12 @@ export default function RecipeByCategory() {
   const getRecipeByCategory = async () => {
     setLoader(true);
     try {
-      const { data } = await axios.get(`${BASE_URI}/recipe/${categoryId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await axios.get(
+        `${BASE_URI}/recipe/category/${categoryId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setLoader(false);
       if (!data.success) {
         Alert.alert("Error", data.message);

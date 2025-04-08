@@ -103,3 +103,28 @@ exports.getRecipesByCategory = async (req, res) => {
         })
     }
 }
+
+exports.getAllRecipes = async (req, res) => {
+    try {
+        const recipes = await Recipe.find({}).populate("category").sort({ createdAt: -1 });
+
+        if (!recipes.length) {
+            return res.status(404).json({
+                success: false,
+                message: "No recipes found!",
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Recipes fetched successfully",
+            data: recipes,
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
