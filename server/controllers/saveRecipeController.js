@@ -79,7 +79,7 @@ exports.getSavedRecipes = async (req, res) => {
             })
         }
 
-        recipes = recipes.filter((recipe) => {
+        recipes = recipes.map((recipe) => {
             const favouriteIds = recipe.favourites?.map(id => id.toString()) || [];
             if (favouriteIds.includes(req.user.id)) {
                 return {
@@ -89,6 +89,7 @@ exports.getSavedRecipes = async (req, res) => {
                 };
             }
         });
+        recipes = recipes.filter(recipe => recipe !== undefined);
         return res.status(200).json({
             success: true,
             message: "Recipr fetched successfully!",

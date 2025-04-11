@@ -42,6 +42,7 @@ export default function CookBook() {
       }
 
       setRecipeList(data.data);
+      console.log(data.data);
     } catch (error: any) {
       setLoader(false);
       console.log(error);
