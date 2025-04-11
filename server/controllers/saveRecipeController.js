@@ -26,8 +26,6 @@ exports.saveRecipe = async (req, res) => {
             });
         }
 
-        console.log("!recipe.favourites.includes(userId)", !recipe.favourites.includes(userId));
-        console.log("!recipe.favourites.includes(mongoose.Types.ObjectId(userId))", !recipe.favourites.includes(new mongoose.Types.ObjectId(userId)));
         if (type === "save") {
             if (!recipe.favourites.includes(userId)) {
                 recipe.favourites.push(userId);

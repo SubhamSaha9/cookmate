@@ -81,7 +81,15 @@ exports.getRecipesByCategory = async (req, res) => {
             })
         }
 
-        const filteredRecipes = await Recipe.find({ category: categoryId }).sort({ createdAt: -1 });
+        let filteredRecipes = await Recipe.find({ category: categoryId }).lean().sort({ createdAt: -1 });
+        filteredRecipes = filteredRecipes.map((recipe) => {
+            const favouriteIds = recipe.favourites?.map(id => id.toString()) || [];
+            return {
+                ...recipe,
+                saved: favouriteIds.includes(req.user.id),
+                favourites: undefined
+            };
+        });
 
         if (!filteredRecipes.length) {
             return res.status(404).json({
@@ -106,7 +114,7 @@ exports.getRecipesByCategory = async (req, res) => {
 
 exports.getAllRecipes = async (req, res) => {
     try {
-        const recipes = await Recipe.find({}).sort({ createdAt: -1 });
+        let recipes = await Recipe.find({}).lean().sort({ createdAt: -1 });
 
         if (!recipes.length) {
             return res.status(404).json({
@@ -114,6 +122,15 @@ exports.getAllRecipes = async (req, res) => {
                 message: "No recipes found!",
             })
         }
+
+        recipes = recipes.map((recipe) => {
+            const favouriteIds = recipe.favourites?.map(id => id.toString()) || [];
+            return {
+                ...recipe,
+                saved: favouriteIds.includes(req.user.id),
+                favourites: undefined
+            };
+        });
 
         return res.status(200).json({
             success: true,
@@ -148,8 +165,15 @@ exports.getRecipesByUser = async (req, res) => {
             })
         }
 
-        const filteredRecipes = await Recipe.find({ userId: email }).sort({ createdAt: -1 });
-
+        let filteredRecipes = await Recipe.find({ userId: email }).lean().sort({ createdAt: -1 });
+        filteredRecipes = filteredRecipes.map((recipe) => {
+            const favouriteIds = recipe.favourites?.map(id => id.toString()) || [];
+            return {
+                ...recipe,
+                saved: favouriteIds.includes(req.user.id),
+                favourites: undefined
+            };
+        });
         if (!filteredRecipes.length) {
             return res.status(404).json({
                 success: false,
