@@ -1,4 +1,5 @@
-const Favourite = require("../models/favourite");
+const { default: mongoose } = require("mongoose");
+const Recipe = require("../models/recipe");
 
 exports.saveRecipe = async (req, res) => {
     try {
@@ -11,58 +12,52 @@ exports.saveRecipe = async (req, res) => {
             });
         }
 
-        const savedReipe = await Favourite.findOne({ user: userId });
-        if (type === "unsave" && !savedReipe) {
+        const recipe = await Recipe.findById(recipeId);
+        if (!recipe) {
+            return res.status(404).json({
+                success: false,
+                message: "No recipes found with the provided recipeId!",
+            });
+        }
+        if (type === "unsave" && !recipe.favourites.includes(userId)) {
             return res.status(404).json({
                 success: false,
                 message: "No saved recipes found!",
             });
         }
 
+        console.log("!recipe.favourites.includes(userId)", !recipe.favourites.includes(userId));
+        console.log("!recipe.favourites.includes(mongoose.Types.ObjectId(userId))", !recipe.favourites.includes(new mongoose.Types.ObjectId(userId)));
         if (type === "save") {
-            if (!savedReipe) {
-                const newFavourite = await Favourite.create({
-                    user: userId,
-                    recipe: [recipeId]
-                });
-                return res.status(201).json({
+            if (!recipe.favourites.includes(userId)) {
+                recipe.favourites.push(userId);
+                const newFavourite = await recipe.save();
+                return res.status(200).json({
                     success: true,
-                    message: "Recipe saved successfully!",
+                    message: "Recipe saved in your CookBook successfully!",
                     data: newFavourite
                 });
             } else {
-                const isRecipeSaved = savedReipe.recipe.includes(recipeId);
-                if (isRecipeSaved) {
-                    return res.status(400).json({
-                        success: false,
-                        message: "Recipe already saved!",
-                    });
-                } else {
-                    savedReipe.recipe.push(recipeId);
-                    const newFavourite = await savedReipe.save();
-                    return res.status(200).json({
-                        success: true,
-                        message: "Recipe saved successfully!",
-                        data: newFavourite
-                    });
-                }
+                return res.status(400).json({
+                    success: false,
+                    message: "Recipe already saved!",
+                });
             }
         } else {
-            const isRecipeSaved = savedReipe.recipe.includes(recipeId);
-            if (!isRecipeSaved) {
+            if (!recipe.favourites.includes(userId)) {
                 return res.status(400).json({
                     success: false,
                     message: "Recipe not found in saved recipes!",
                 });
             } else {
-                const updatedFavourite = await Favourite.findOneAndUpdate(
-                    { user: userId },
-                    { $pull: { recipe: recipeId } },
+                const updatedFavourite = await Recipe.findOneAndUpdate(
+                    { _id: recipeId },
+                    { $pull: { favourites: userId } },
                     { new: true }
                 );
                 return res.status(200).json({
                     success: true,
-                    message: "Recipe unsaved successfully!",
+                    message: "Recipe removed from CookBook!",
                     data: updatedFavourite
                 });
             }
