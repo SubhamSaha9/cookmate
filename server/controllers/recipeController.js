@@ -106,7 +106,7 @@ exports.getRecipesByCategory = async (req, res) => {
 
 exports.getAllRecipes = async (req, res) => {
     try {
-        const recipes = await Recipe.find({}).populate("category").sort({ createdAt: -1 });
+        const recipes = await Recipe.find({}).sort({ createdAt: -1 });
 
         if (!recipes.length) {
             return res.status(404).json({
@@ -119,6 +119,48 @@ exports.getAllRecipes = async (req, res) => {
             success: true,
             message: "Recipes fetched successfully",
             data: recipes,
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.getRecipesByUser = async (req, res) => {
+    try {
+        const { email } = req.user;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email is required!",
+            })
+        };
+
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found!",
+            })
+        }
+
+        const filteredRecipes = await Recipe.find({ userId: email }).sort({ createdAt: -1 });
+
+        if (!filteredRecipes.length) {
+            return res.status(404).json({
+                success: false,
+                message: "No recipes found for this user!",
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Recipes fetched successfully",
+            data: filteredRecipes,
         })
     } catch (error) {
         console.log(error);
