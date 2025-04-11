@@ -1,4 +1,3 @@
-const { default: mongoose } = require("mongoose");
 const Recipe = require("../models/recipe");
 
 exports.saveRecipe = async (req, res) => {
@@ -66,5 +65,39 @@ exports.saveRecipe = async (req, res) => {
             success: false,
             message: error.message
         });
+    }
+}
+
+exports.getSavedRecipes = async (req, res) => {
+    try {
+        let recipes = await Recipe.find({}).lean().sort({ createdAt: -1 });
+
+        if (!recipes.length) {
+            return res.status(404).json({
+                success: false,
+                message: "No recipes found!",
+            })
+        }
+
+        recipes = recipes.filter((recipe) => {
+            const favouriteIds = recipe.favourites?.map(id => id.toString()) || [];
+            if (favouriteIds.includes(req.user.id)) {
+                return {
+                    ...recipe,
+                    favourites: undefined
+                };
+            }
+        });
+        return res.status(200).json({
+            success: true,
+            message: "Recipr fetched successfully!",
+            data: recipes
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })
     }
 }
