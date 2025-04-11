@@ -84,6 +84,7 @@ exports.getSavedRecipes = async (req, res) => {
             if (favouriteIds.includes(req.user.id)) {
                 return {
                     ...recipe,
+                    saved: true,
                     favourites: undefined
                 };
             }
