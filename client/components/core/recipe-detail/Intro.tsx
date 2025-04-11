@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { Recipe } from "@/app/recipe-by-category";
 import { COLORS } from "@/styles/Colors";
 import DataBox from "./DataBox";
@@ -14,10 +14,42 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reducer";
 import axios from "axios";
+import Loading from "@/components/ui/Loading";
 
 const BASE_URI = process.env.EXPO_PUBLIC_API_URL;
 
 export default function Intro({ recipe }: { recipe: Recipe }) {
+  const { token } = useSelector((state: RootState) => state.auth);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const saveRecipe = async () => {
+    console.log("pressed");
+    setLoading(true);
+    try {
+      const body = {
+        recipeId: recipe._id,
+        type: recipe.saved ? "unsave " : "save",
+      };
+      const { data } = await axios.post(
+        `${BASE_URI}/recipe/save-recipe`,
+        body,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setLoading(false);
+      if (!data.success) {
+        Alert.alert("Error", data.message);
+        return;
+      }
+      recipe.saved = !recipe.saved;
+      Alert.alert(data.message);
+    } catch (error: any) {
+      setLoading(false);
+      console.log(error);
+      Alert.alert("Error", error?.response?.data.message ?? error.message);
+    }
+  };
   return (
     <View>
       <Image
@@ -29,10 +61,15 @@ export default function Intro({ recipe }: { recipe: Recipe }) {
         }}
         style={styles.image}
       />
+      <Loading visible={loading} text="saving..." />
       <View style={styles.headingContainer}>
         <Text style={styles.heading}>{recipe.recipeName}</Text>
-        <TouchableOpacity onPress={saveRecipe}>
-          <Ionicons name="bookmark-outline" size={24} color={"black"} />
+        <TouchableOpacity onPress={() => saveRecipe()}>
+          {recipe.saved ? (
+            <Ionicons name="bookmark-sharp" size={24} color={COLORS.PRIMARY} />
+          ) : (
+            <Ionicons name="bookmark-outline" size={24} color={"black"} />
+          )}
         </TouchableOpacity>
       </View>
       <Text style={styles.desc}>Description</Text>
@@ -65,7 +102,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontFamily: "outfit",
-    fontSize: 22,
+    fontSize: 20,
     marginTop: 7,
   },
   headingContainer: {

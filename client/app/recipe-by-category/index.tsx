@@ -27,6 +27,7 @@ export interface Recipe {
   image: string;
   category?: string[];
   email?: string;
+  saved: boolean;
   createdAt?: string;
   updatedAt?: string;
   __v?: number;
@@ -48,6 +49,7 @@ const data = [
     ],
     calories: 320,
     cookTime: 15,
+    saved: false,
     serveTo: 2,
     image:
       "https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -69,6 +71,7 @@ const data = [
     ],
     calories: 250,
     cookTime: 10,
+    saved: false,
     serveTo: 1,
     image:
       "https://plus.unsplash.com/premium_photo-1676106624038-81d1e17573db?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8QXZvY2FkbyUyMFRvYXN0fGVufDB8fDB8fHww",
@@ -90,6 +93,7 @@ const data = [
     ],
     calories: 300,
     cookTime: 8,
+    saved: false,
     serveTo: 1,
     image:
       "https://images.unsplash.com/photo-1610406765661-57646c40da59?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -111,6 +115,7 @@ const data = [
     ],
     calories: 220,
     cookTime: 6,
+    saved: false,
     serveTo: 1,
     image:
       "https://images.unsplash.com/photo-1562918005-50afb98e5d32?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -137,6 +142,7 @@ const data = [
     ],
     calories: 280,
     cookTime: 5,
+    saved: false,
     serveTo: 1,
     image:
       "https://plus.unsplash.com/premium_photo-1693267085608-aa50fa091f6c?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
