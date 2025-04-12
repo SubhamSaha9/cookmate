@@ -54,7 +54,6 @@ exports.createRecipe = async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
             success: false,
             message: error.message,
@@ -104,7 +103,6 @@ exports.getRecipesByCategory = async (req, res) => {
             data: filteredRecipes,
         })
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
             success: false,
             message: error.message
@@ -138,7 +136,6 @@ exports.getAllRecipes = async (req, res) => {
             data: recipes,
         })
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
             success: false,
             message: error.message
@@ -187,7 +184,6 @@ exports.getRecipesByUser = async (req, res) => {
             data: filteredRecipes,
         })
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
             success: false,
             message: error.message

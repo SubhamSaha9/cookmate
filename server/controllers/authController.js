@@ -34,7 +34,6 @@ exports.signUp = async (req, res) => {
             message: "User is registered successfully.",
         });
     } catch (error) {
-        console.log(error)
         return res.status(500).json({
             success: false,
             message: error.message,
@@ -93,21 +92,5 @@ exports.signIn = async (req, res) => {
             success: false,
             message: error.message,
         });
-    }
-}
-
-exports.getAllUser = async (req, res) => {
-    try {
-        const allUsers = await User.find({});
-        return res.status(200).json({
-            success: true,
-            message: "Data fetched successfully",
-            data: allUsers
-        })
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        })
     }
 }
