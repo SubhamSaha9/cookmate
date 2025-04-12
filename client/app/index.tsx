@@ -1,23 +1,22 @@
-import { RootState } from "@/reducer";
 import { checkAuth } from "@/slice/authSlice";
 import { Redirect } from "expo-router";
-import { getItemAsync } from "expo-secure-store";
 import { useEffect } from "react";
-import { Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { View } from "react-native";
+import { useDispatch } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Index() {
   const dispatch = useDispatch();
-  const { token } = useSelector((state: RootState) => state.auth);
 
   const checkAsyncAuth = async () => {
-    const jsonToken = await getItemAsync("token");
-    const jsonUser = await getItemAsync("user");
+    const jsonToken = await AsyncStorage.getItem("token");
+    const jsonUser = await AsyncStorage.getItem("user");
 
     if (jsonToken && jsonUser) {
       dispatch(
         checkAuth({ token: JSON.parse(jsonToken), user: JSON.parse(jsonUser) })
       );
+      return <Redirect href={"/(tabs)/Home" as any} />;
     }
   };
   useEffect(() => {
@@ -31,11 +30,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      {token ? (
-        <Redirect href={"/(tabs)/Home" as any} />
-      ) : (
-        <Redirect href={"/Landing"} />
-      )}
+      <Redirect href={"/Landing"} />
     </View>
   );
 }

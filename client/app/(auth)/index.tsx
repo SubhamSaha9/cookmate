@@ -14,6 +14,7 @@ import styles from "@/styles/LoginStyle";
 import Input from "@/components/ui/Input";
 import { LoginColors } from "@/styles/Colors";
 import AnimateButton from "@/components/ui/AnimateButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, useRouter } from "expo-router";
 import { useDispatch } from "react-redux";
 import { setToken, setUser } from "@/slice/authSlice";
@@ -43,8 +44,10 @@ export default function SignIn() {
         return;
       }
 
-      await setItemAsync("token", JSON.stringify(data.token));
-      await setItemAsync("user", JSON.stringify(data.user));
+      // await setItemAsync("token", JSON.stringify(data.token));
+      // await setItemAsync("user", JSON.stringify(data.user));
+      await AsyncStorage.setItem("token", JSON.stringify(data.token));
+      await AsyncStorage.setItem("user", JSON.stringify(data.user));
       dispatch(setUser(data.user));
       dispatch(setToken(data.token));
       router.replace("/(tabs)/Home" as any);

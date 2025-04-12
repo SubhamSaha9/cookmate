@@ -1,9 +1,19 @@
-import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/reducer";
 import { useRouter } from "expo-router";
+// import AsyncStorage from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "@/styles/ProfileStyle";
+import { setToken, setUser } from "@/slice/authSlice";
 const options = [
   {
     name: "Create New Recipe",
@@ -29,9 +39,15 @@ const options = [
 export default function Profile() {
   const { user } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
-  const onOptionClick = (option: any) => {
+  const dispatch = useDispatch();
+  const onOptionClick = async (option: any) => {
     if (option.name === "Logout") {
+      await AsyncStorage.removeItem("token");
+      await AsyncStorage.removeItem("user");
+      dispatch(setToken(null));
+      dispatch(setUser(null));
       router.replace(option.path);
+      Alert.alert("You have been logged out successfully");
       return;
     }
 

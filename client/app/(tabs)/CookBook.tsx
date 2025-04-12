@@ -42,7 +42,6 @@ export default function CookBook() {
       }
 
       setRecipeList(data.data);
-      console.log(data.data);
     } catch (error: any) {
       setLoader(false);
       console.log(error);
@@ -74,7 +73,6 @@ export default function CookBook() {
         </TouchableOpacity>
       </View>
 
-      <Loading visible={loader} />
       <FlatList
         data={recipeList}
         keyExtractor={(item) => item._id}
