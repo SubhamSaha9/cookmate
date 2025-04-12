@@ -23,7 +23,6 @@ export default function Intro({ recipe }: { recipe: Recipe }) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const saveRecipe = async () => {
-    console.log("pressed");
     setLoading(true);
     try {
       const body = {
@@ -64,7 +63,11 @@ export default function Intro({ recipe }: { recipe: Recipe }) {
       <Loading visible={loading} text="saving..." />
       <View style={styles.headingContainer}>
         <Text style={styles.heading}>{recipe.recipeName}</Text>
-        <TouchableOpacity onPress={() => saveRecipe()}>
+        <TouchableOpacity
+          onPress={() => saveRecipe()}
+          style={{ padding: 5 }}
+          hitSlop={{ top: 10, bottom: 15, left: 10, right: 10 }}
+        >
           {recipe.saved ? (
             <Ionicons name="bookmark-sharp" size={24} color={COLORS.PRIMARY} />
           ) : (
