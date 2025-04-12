@@ -7,6 +7,7 @@ import SafeScreen from "@/components/common/SafeScreen";
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "@/reducer/index";
 import { Ionicons } from "@expo/vector-icons";
+import ConnectivityBanner from "@/components/common/ConnectivityBanner";
 
 const store = configureStore({
   reducer: rootReducer,
@@ -22,6 +23,7 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <SafeScreen>
         <Provider store={store}>
+          <ConnectivityBanner />
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Landing" />
             <Stack.Screen name="(auth)" />
