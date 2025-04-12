@@ -61,15 +61,37 @@ export default function CookBook() {
           style={[styles.tabContainer, { opacity: activeTab === 1 ? 1 : 0.4 }]}
           onPress={() => setActiveTab(1)}
         >
-          <Ionicons name="sparkles-sharp" size={24} color={"black"} />
-          <Text style={styles.tabText}>My Recipe</Text>
+          <Ionicons
+            name="sparkles-sharp"
+            size={24}
+            color={activeTab === 1 ? COLORS.PRIMARY : "black"}
+          />
+          <Text
+            style={[
+              styles.tabText,
+              { color: activeTab === 1 ? COLORS.PRIMARY : COLORS.BLACK },
+            ]}
+          >
+            My Recipe
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tabContainer, { opacity: activeTab === 2 ? 1 : 0.4 }]}
           onPress={() => setActiveTab(2)}
         >
-          <Ionicons name="bookmark" size={24} color={"black"} />
-          <Text style={styles.tabText}>Saved</Text>
+          <Ionicons
+            name="bookmark"
+            size={24}
+            color={activeTab === 2 ? COLORS.PRIMARY : "black"}
+          />
+          <Text
+            style={[
+              styles.tabText,
+              { color: activeTab === 2 ? COLORS.PRIMARY : COLORS.BLACK },
+            ]}
+          >
+            Saved
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -109,13 +131,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     gap: 6,
+    justifyContent: "space-around",
     marginBottom: 6,
   },
   tabContainer: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
     flexDirection: "row",
     gap: 5,
+    backgroundColor: COLORS.BORDER,
+    width: "46%",
+    borderRadius: 10,
+    padding: 15,
   },
   tabText: {
     fontFamily: "outfit",
