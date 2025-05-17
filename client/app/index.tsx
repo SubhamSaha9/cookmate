@@ -16,7 +16,6 @@ export default function Index() {
       dispatch(
         checkAuth({ token: JSON.parse(jsonToken), user: JSON.parse(jsonUser) })
       );
-      return <Redirect href={"/(tabs)/Home" as any} />;
     }
   };
   useEffect(() => {

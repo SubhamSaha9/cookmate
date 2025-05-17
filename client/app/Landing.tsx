@@ -2,7 +2,7 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { Marquee } from "@animatereactnative/marquee";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import React from "react";
-import { useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import Button from "@/components/ui/Button";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { COLORS } from "@/styles/Colors";
@@ -25,6 +25,10 @@ export default function Landing() {
     require("../assets/images/6.jpg"),
   ];
   const router = useRouter();
+
+  if (token) {
+    return <Redirect href={"/(tabs)/Home" as any} />;
+  }
   return (
     <GestureHandlerRootView>
       <View>
