@@ -1,4 +1,4 @@
-<h2 align="center">Bolt.Clone - A Website that make website</h2>
+<h2 align="center">CookMate - A react native application built with expo which is built on AI</h2>
 
 1. ⚙️ [Tech Stack](#tech-stack)
 2. 🤸 [Quick Start](#quick-start)
